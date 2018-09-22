@@ -326,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    
 
     public String getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
