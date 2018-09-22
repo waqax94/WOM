@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <RelativeLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <DigitalClock
+            android:id="@+id/digital_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="45dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            />
+
+
+        <TextView
+            android:id="@+id/notification_window"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:maxWidth="250dp"
+            android:textColor="#fff"
+            android:text="Watch over me!"
+            android:textSize="30dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            android:layout_below="@id/digital_clock"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/battery_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Battery Level:"
+            android:layout_below="@id/notification_window"
+            android:layout_centerHorizontal="true"
+            android:textSize="40dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="#fff"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/battery_label"
+            android:textSize="40dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="#fff"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            android:text="10%"/>
+
+
+        <Button
+            android:id="@+id/help_me_btn"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/alert_button_bg"
+            android:text="Help Me!"
+            android:textColor="#fff"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="40dp"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
