@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 if (configure_button()) {
 
                     Log log = new Log("SVC01", new SimpleDateFormat("dd/MM/yyyy").format(new Date()), getCurrentTime(), "Wearer in trouble!",
-                            "Alert Log", "" + latitude, "" + longitude, "" + bLevel, "" + registrationToken);
+                            "Alert Log", "" + latitude, "" + longitude, "" + bLevel,"" + registrationToken);
 
                     Call<Log> sendLog = service.processLogs(log);
 
@@ -230,11 +230,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (broadcastNotificationReceiver != null) {
-            IntentFilter intentFilter = new IntentFilter("ACTION_STRING_ACTIVITY");
+        if (broadcastNotificationReceiver != null){
+            IntentFilter intentFilter = new  IntentFilter("ACTION_STRING_ACTIVITY");
             registerReceiver(broadcastNotificationReceiver, intentFilter);
         }
     }
+
 
 
     private BroadcastReceiver broadcastNotificationReceiver = new BroadcastReceiver() {
@@ -268,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         if (configure_button()) {
 
             Log log = new Log("SVC01", new SimpleDateFormat("dd/MM/yyyy").format(new Date()), getCurrentTime(), "Wearer in trouble!",
-                    "Hourly Log", "" + latitude, "" + longitude, "" + bLevel, "" + registrationToken);
+                    "Hourly Log", "" + latitude, "" + longitude, "" + bLevel,"" + registrationToken);
 
             Call<String> sendHourlyLog = service.processHourlyLog(log);
 
@@ -322,18 +323,8 @@ public class MainActivity extends AppCompatActivity {
     private Runnable Location_Tick = new Runnable() {
         @Override
         public void run() {
-            if (configure_button()) {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                locationManager.requestLocationUpdates("gps", 0, 0, listener);
+            if(configure_button()){
+            locationManager.requestLocationUpdates("gps", 0, 0, listener);
             }
         }
     };
