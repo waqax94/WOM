@@ -19,8 +19,8 @@ public interface APIService {
             "Content-Type: application/json"
     })
 
-    @POST("wom")
-    Call<String> sendJsonData(@Body User body);
+    @POST("loginprocessing")
+    Call<String> processLogin(@Body User body);
 
     @POST("logsprocessing")
     Call<Log> processLogs(@Body Log logBody);

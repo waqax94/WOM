@@ -5,46 +5,34 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    @SerializedName("name")
+    @SerializedName("phoneNum")
     @Expose
-    private String name;
-    @SerializedName("rank")
+    private String phoneNum;
+    @SerializedName("password")
     @Expose
-    private String rank;
-    @SerializedName("availability")
-    @Expose
-    private boolean availability;
+    private String password;
 
     public User() {
     }
 
-    public User(String name, String rank, boolean availability) {
-        this.name = name;
-        this.rank = rank;
-        this.availability = availability;
+    public User(String phoneNum, String password) {
+        this.phoneNum = phoneNum;
+        this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
-    public String getRank() {
-        return rank;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public boolean getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
