@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -118,6 +119,50 @@ public class MainActivity extends AppCompatActivity {
         helpMe = (Button) findViewById(R.id.help_me_btn);
         notificationPanel = (TextView) findViewById(R.id.notification_window);
         check = (Button) findViewById(R.id.check_btn);
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences loginData = getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
+                String phone = loginData.getString("wearerPhone","");
+                String pw = loginData.getString("wearerPassword","");
+                String sId = loginData.getString("serviceId","");
+
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(IpClass.ipAddress)
+                        .addConverterFactory(GsonConverterFactory.create()).build();
+
+                final APIService service = retrofit.create(APIService.class);
+
+
+                User user = new User (phone,pw);
+
+                Call<String> userData = service.processLogin(user);
+
+                userData.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Response<String> response, Retrofit retrofit) {
+
+                        if(response.body() == null || response.body().equals("")){
+                            Toast.makeText(getApplicationContext(),"Login Again",Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(i);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),response.body(),Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                            startActivity(i);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+            }
+        });
 
         this.registerReceiver(this.broadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 

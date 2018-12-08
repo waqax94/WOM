@@ -35,6 +35,7 @@
                 android:textAlignment="center"
                 android:textSize="25dp"
                 android:hint="Phone Number"
+                android:inputType="number"
                 android:textColor="@color/colorPrimary"
                 android:background="@drawable/login_fields"/>
 
@@ -46,6 +47,7 @@
                 android:textAlignment="center"
                 android:textSize="25dp"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:layout_marginTop="25dp"
                 android:layout_below="@id/login_phone"
                 android:textColor="@color/colorPrimary"

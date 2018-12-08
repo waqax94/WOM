@@ -19,7 +19,7 @@ public interface APIService {
             "Content-Type: application/json"
     })
 
-    @POST("loginprocessing")
+    @POST("userloginprocessing")
     Call<String> processLogin(@Body User body);
 
     @POST("logsprocessing")
