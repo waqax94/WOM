@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#004271</color>
     <color name="colorAccent">#b3f0ff</color>
     <color name="buttonColor">#061463</color>
-    <color name="pButton">#7387f5</color>
+    <color name="pButton">#7387f5</color>9e170e
+    <color name="alertColor">#9e170e</color>
+    <color name="colorPrimaryLight">#a0004271</color>
 
 </resources>

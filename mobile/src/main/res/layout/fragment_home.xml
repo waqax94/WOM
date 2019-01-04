@@ -3,17 +3,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment">
+    tools:context=".Fragments.HomeFragment"
+    android:background="@drawable/fragment_bg">
 
     <RelativeLayout
+        android:id="@+id/home_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/home_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"
-            android:layout_centerInParent="true"/>
+            android:text="Watch Over Me"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/colorPrimary"/>
+
+        <DigitalClock
+            android:id="@+id/digital_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@id/home_title"
+            />
+
+        <TextView
+            android:id="@+id/battery_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Battery:"
+            android:layout_below="@id/digital_clock"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/battery_label"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorPrimary"
+            android:text="10% Remaining"/>
+
+        <Button
+            android:id="@+id/help_me_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:layout_below="@id/battery_percent"
+            android:layout_margin="30dp"
+            android:text="Help Me!"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="30dp"
+            android:background="@drawable/alert_bg"/>
+
+        <Button
+            android:id="@+id/test_device_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp"
+            android:text="Test Connection"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:background="@drawable/btn2_bg"/>
 
     </RelativeLayout>
 

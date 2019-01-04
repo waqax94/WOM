@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragments(notificationFragment,"Notifications");
         viewPagerAdapter.addFragments(homeFragment,"Home");
-        viewPagerAdapter.addFragments(contactFragment,"Contacts");
+        viewPagerAdapter.addFragments(contactFragment,"Contact");
 
 
         viewPager.setAdapter(viewPagerAdapter);
