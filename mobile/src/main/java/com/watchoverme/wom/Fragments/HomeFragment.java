@@ -2,10 +2,12 @@ package com.watchoverme.wom.Fragments;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +15,7 @@ import android.location.LocationManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -73,7 +76,10 @@ public class HomeFragment extends Fragment {
     ArrayList<String> allNotifications = new ArrayList<String>();
     TextView notificationPanel;
     String registrationToken;
-    Button check;
+    Button checkConnection;
+    String sId,phone;
+    ProgressDialog dialog;
+
 
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -94,6 +100,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView =  inflater.inflate(R.layout.fragment_home, container, false);
 
+        dialog = new ProgressDialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.setTitle("Please Wait...");
+        SharedPreferences loginData = getActivity().getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
+        phone = loginData.getString("wearerPhone","");
+        sId = loginData.getString("serviceId","");
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -107,8 +120,6 @@ public class HomeFragment extends Fragment {
                         String token = task.getResult().getToken();
 
 
-                        //android.util.Log.d("REG_TOKEN", token);
-                        //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
                         registrationToken = token;
                     }
 
@@ -117,6 +128,7 @@ public class HomeFragment extends Fragment {
         mainLayout = (RelativeLayout) rootView.findViewById(R.id.home_layout);
         batteryLevel = (TextView) rootView.findViewById(R.id.battery_percent);
         helpMe = (Button) rootView.findViewById(R.id.help_me_btn);
+        checkConnection = (Button) rootView.findViewById(R.id.test_device_btn);
 
 
         getActivity().registerReceiver(this.broadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
@@ -137,8 +149,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onShowPress(MotionEvent motionEvent) {
-                Toast.makeText(getActivity(),"User show press the Screen!",Toast.LENGTH_SHORT).show();
-                Log log = new Log("SVC01",new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Show Press the Screen!",
+                Log log = new Log(sId,new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Show Press the Screen!",
                         "Interaction log", "","", "" + bLevel,"" + registrationToken);
                 logs.add(log);
             }
@@ -146,8 +157,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onSingleTapUp(MotionEvent motionEvent) {
-                Toast.makeText(getActivity(),"User Tap the Screen!",Toast.LENGTH_SHORT).show();
-                Log log = new Log("SVC01",new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Tap the Screen!",
+                Log log = new Log(sId,new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Tap the Screen!",
                         "Interaction log", "","", "" + bLevel,"" + registrationToken);
                 logs.add(log);
                 return true;
@@ -160,16 +170,14 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-                Toast.makeText(getActivity(),"User Long press the Screen!",Toast.LENGTH_SHORT).show();
-                Log log = new Log("SVC01",new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Long press the Screen!",
+                Log log = new Log(sId,new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Long press the Screen!",
                         "Interaction log", "","", "","" + registrationToken);
                 logs.add(log);
             }
 
             @Override
             public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-                Toast.makeText(getActivity(),"User Swipe the Screen!",Toast.LENGTH_SHORT).show();
-                Log log = new Log("SVC01",new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Swipe the Screen!",
+                Log log = new Log(sId,new SimpleDateFormat("dd/MM/yyyy").format(new Date()),getCurrentTime(),"User Swipe the Screen!",
                         "Interaction log", "","", "" + bLevel,"" + registrationToken);
                 logs.add(log);
                 return true;
@@ -208,6 +216,7 @@ public class HomeFragment extends Fragment {
             }
         };
 
+
         locTimer = new Timer();
         locTimer.schedule(new TimerTask() {
             @Override
@@ -223,12 +232,43 @@ public class HomeFragment extends Fragment {
             public void run() {
                 TimerMethod();
             }
-        }, 30000, 15000);
+        }, 30000, 3600000);
+
+        checkConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getActivity(),"Testing Connection",Toast.LENGTH_SHORT).show();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(IpClass.ipAddress)
+                        .addConverterFactory(GsonConverterFactory.create()).build();
+
+                final APIService service = retrofit.create(APIService.class);
+
+                Call<String> check = service.connectionCheck();
+
+                check.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Response<String> response, Retrofit retrofit) {
+                        Toast.makeText(getActivity(),response.body(),Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Toast.makeText(getActivity(),"Connection Error!\nPlease check your internet connection",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+            }
+        });
 
         helpMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                dialog.show();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(IpClass.ipAddress)
                         .addConverterFactory(GsonConverterFactory.create()).build();
@@ -237,14 +277,25 @@ public class HomeFragment extends Fragment {
 
                 if (configure_button()) {
 
-                    Log log = new Log("SVC01", new SimpleDateFormat("dd/MM/yyyy").format(new Date()), getCurrentTime(), "Wearer in trouble!",
+                    Log log = new Log(sId, new SimpleDateFormat("dd/MM/yyyy").format(new Date()), getCurrentTime(), "Wearer pressed help me button!",
                             "Alert Log", "" + latitude, "" + longitude, "" + bLevel,"" + registrationToken);
 
-                    Call<Log> sendLog = service.processLogs(log);
+                    Call<String> sendLog = service.processHelpMe(log);
 
-                    sendLog.enqueue(new Callback<Log>() {
+                    sendLog.enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Response<Log> response, Retrofit retrofit) {
+                        public void onResponse(Response<String> response, Retrofit retrofit) {
+                            Toast.makeText(getActivity(),response.body(),Toast.LENGTH_SHORT).show();
+                            final Handler handler  = new Handler();
+                            final Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (dialog.isShowing()) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                            };
+                            handler.postDelayed(runnable, 3000);
                             if (logs.size() > 0) {
                                 Call<String> sendHourlyLog = service.processInteractionLog(logs);
 
@@ -252,7 +303,6 @@ public class HomeFragment extends Fragment {
                                     @Override
                                     public void onResponse(Response<String> response, Retrofit retrofit) {
                                         logs.clear();
-                                        //Toast.makeText(getApplicationContext(), response.body(), Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
@@ -298,7 +348,7 @@ public class HomeFragment extends Fragment {
 
         if (configure_button()) {
 
-            Log log = new Log("SVC01", new SimpleDateFormat("dd/MM/yyyy").format(new Date()), getCurrentTime(), "Wearer in trouble!",
+            Log log = new Log(sId, new SimpleDateFormat("dd/MM/yyyy").format(new Date()), getCurrentTime(), "Wearer in trouble!",
                     "Hourly Log", "" + latitude, "" + longitude, "" + bLevel,"" + registrationToken);
 
             Call<String> sendHourlyLog = service.processHourlyLog(log);
@@ -314,7 +364,6 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onResponse(Response<String> response, Retrofit retrofit) {
                                 logs.clear();
-                                Toast.makeText(getActivity(), response.body(), Toast.LENGTH_LONG).show();
                             }
 
                             @Override

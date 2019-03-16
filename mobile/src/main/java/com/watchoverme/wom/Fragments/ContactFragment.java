@@ -56,7 +56,7 @@ public class ContactFragment extends Fragment {
         ServiceId serviceId = new ServiceId(sId);
 
         contactsListView = (ListView)rootView.findViewById(R.id.contact_list);
-        contactListAdapter = new ContactListAdapter(getActivity(),R.layout.contact_list_item);
+        contactListAdapter = new ContactListAdapter(getActivity(),R.layout.contact_list_item,sId,phone);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IpClass.ipAddress)

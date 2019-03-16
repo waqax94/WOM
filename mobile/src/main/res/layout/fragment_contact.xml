@@ -10,12 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/watcher_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Watcher List"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
         <ListView
             android:id="@+id/contact_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="1dp"
             android:padding="10dp"
+            android:layout_below="@id/watcher_title"
             android:divider="@color/colorPrimary"></ListView>
 
     </RelativeLayout>

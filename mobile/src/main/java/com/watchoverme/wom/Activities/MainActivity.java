@@ -148,9 +148,9 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Connection Error!\nPlease make sure your internet is working!",Toast.LENGTH_SHORT).show();
                 tryAgainBtn.setVisibility(View.VISIBLE);
                 loadingIcon.setVisibility(View.INVISIBLE);
-                Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                //Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                 //intent.setClassName("com.android.phone", "com.android.phone.Settings");
-                startActivity(intent);
+                //startActivity(intent);
                 check[0] = false;
             }
         });

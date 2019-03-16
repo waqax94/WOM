@@ -8,12 +8,23 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/watcher_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="40dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <TextView
             android:id="@+id/contact_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:layout_margin="10dp"
             android:textSize="20dp"
+            android:layout_toRightOf="@id/watcher_no"
             android:text="Waqas Waheed"/>
 
         <TextView
@@ -24,6 +35,7 @@
             android:layout_below="@id/contact_name"
             android:layout_marginLeft="10dp"
             android:textSize="17dp"
+            android:layout_toRightOf="@id/watcher_no"
             android:text="0435533452"/>
 
 

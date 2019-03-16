@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.LoginActivity"
-    tools:showIn="@layout/activity_login">
+    tools:showIn="@layout/activity_login"
+    android:background="@color/colorPrimaryDark">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,8 +37,9 @@
                 android:textSize="25dp"
                 android:hint="Phone Number"
                 android:inputType="number"
-                android:textColor="@color/colorPrimary"
-                android:background="@drawable/login_fields"/>
+                android:textColorHint="@color/pButton"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorPrimary"/>
 
             <EditText
                 android:id="@+id/login_pw"
@@ -50,8 +52,9 @@
                 android:inputType="textPassword"
                 android:layout_marginTop="25dp"
                 android:layout_below="@id/login_phone"
-                android:textColor="@color/colorPrimary"
-                android:background="@drawable/login_fields"/>
+                android:textColorHint="@color/pButton"
+                android:textColor="@color/colorAccent"
+                android:background="@color/colorPrimary"/>
 
             <Button
                 android:id="@+id/login_btn"
@@ -63,7 +66,7 @@
                 android:text="Login"
                 android:textSize="25dp"
                 android:textAllCaps="false"
-                android:textColor="#fff"
+                android:textColor="@color/colorAccent"
                 android:background="@drawable/btn_bg"
                 />
 

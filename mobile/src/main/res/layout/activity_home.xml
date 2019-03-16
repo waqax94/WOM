@@ -20,8 +20,32 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/service_id"
         android:layout_marginTop="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Service ID: "
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/wearer_name"
+        android:layout_marginTop="85dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wearer Name: "
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:background="@color/colorPrimary"/>
+
+    <android.support.v4.view.ViewPager
+        android:layout_marginTop="122dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/menu_pages">

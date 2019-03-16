@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.watchoverme.wom.Models.IpClass;
@@ -67,16 +68,18 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = loginData.edit();
                             editor.putString("wearerPhone", phone.getText().toString());
                             editor.putString("wearerPassword", password.getText().toString());
-                            editor.putString("serviceId",response.body());
+                            editor.putString("serviceId",response.body().substring(0,12));
+                            editor.putString("wearerName",response.body().substring(13));
                             editor.apply();
                             Intent i = new Intent(getApplicationContext(),HomeActivity.class);
                             startActivity(i);
+                            finish();
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        Toast.makeText(getApplicationContext(),"Connection Error",Toast.LENGTH_SHORT).show();
                     }
                 });
 

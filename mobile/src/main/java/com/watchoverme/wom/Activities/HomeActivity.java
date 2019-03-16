@@ -1,5 +1,7 @@
 package com.watchoverme.wom.Activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.watchoverme.wom.Adapters.ViewPagerAdapter;
 import com.watchoverme.wom.Fragments.ContactFragment;
@@ -20,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
+    TextView serviceId,wearerName;
     ViewPagerAdapter viewPagerAdapter;
     HomeFragment homeFragment;
     NotificationFragment notificationFragment;
@@ -30,9 +34,18 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        SharedPreferences loginData = getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
+        String phone = loginData.getString("wearerPhone","");
+        String sId = loginData.getString("serviceId","");
+        String wName = loginData.getString("wearerName","");
+
+        serviceId = (TextView) findViewById(R.id.service_id);
         tabLayout = (TabLayout) findViewById(R.id.menu_tabs);
         viewPager = (ViewPager) findViewById(R.id.menu_pages);
+        wearerName = (TextView) findViewById(R.id.wearer_name);
 
+        serviceId.setText("Service Id: " + sId);
+        wearerName.setText("Wearer Name: " + wName);
         homeFragment = new HomeFragment();
         notificationFragment = new NotificationFragment();
         contactFragment = new ContactFragment();
@@ -41,11 +54,12 @@ public class HomeActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragments(notificationFragment,"Notifications");
         viewPagerAdapter.addFragments(homeFragment,"Home");
-        viewPagerAdapter.addFragments(contactFragment,"Contact");
+        viewPagerAdapter.addFragments(contactFragment,"Watchers");
 
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        tab.select();
     }
 }
