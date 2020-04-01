@@ -40,6 +40,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.watchoverme.wom.Models.IpClass;
 import com.watchoverme.wom.Models.Log;
+import com.watchoverme.wom.Models.LoginResponse;
 import com.watchoverme.wom.Models.User;
 import com.watchoverme.wom.R;
 import com.watchoverme.wom.Services.APIService;
@@ -106,9 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean loginMethod(){
         SharedPreferences loginData = getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
-        String phone = loginData.getString("wearerPhone","");
-        String pw = loginData.getString("wearerPassword","");
-        String sId = loginData.getString("serviceId","");
+        String userName = loginData.getString("user_name","");
+        String password = loginData.getString("password","");
 
         final boolean[] check = new boolean[1];
 
@@ -119,11 +119,46 @@ public class MainActivity extends AppCompatActivity {
         final APIService service = retrofit.create(APIService.class);
 
 
-        User user = new User (phone,pw);
+        Call<LoginResponse> userData = service.processLogin(userName,password);
 
-        Call<String> userData = service.processLogin(user);
+        userData.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
+                if(response.body().getWomId().equals("-1")){
+                    Toast.makeText(getApplicationContext(),"Some information has been changed \n" + response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                    check[0] = true;
+                    finish();
+                    startActivity(i);
+                }
+                else{
+                    SharedPreferences loginData = getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = loginData.edit();
+                    editor.putString("wom_id", response.body().getWomId());
+                    editor.putString("name", response.body().getName());
+                    editor.putString("service_id", response.body().getServiceId());
+                    editor.apply();
+                    Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                    check[0] = true;
+                    finish();
+                    startActivity(i);
+                }
+            }
 
-        userData.enqueue(new Callback<String>() {
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getApplicationContext(),"Connection Error!\nPlease make sure your internet is working!",Toast.LENGTH_SHORT).show();
+                tryAgainBtn.setVisibility(View.VISIBLE);
+                loadingIcon.setVisibility(View.INVISIBLE);
+                //Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                //intent.setClassName("com.android.phone", "com.android.phone.Settings");
+                //startActivity(intent);
+                check[0] = false;
+            }
+        });
+
+
+        /*userData.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Response<String> response, Retrofit retrofit) {
 
@@ -153,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
                 check[0] = false;
             }
-        });
+        });*/
 
         return  check[0];
     }

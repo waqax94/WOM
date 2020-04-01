@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:text="Watch Over Me"
             android:layout_centerHorizontal="true"
-            android:layout_margin="30dp"
-            android:textSize="40dp"
+            android:layout_margin="15dp"
+            android:textSize="30dp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/colorPrimary"/>
@@ -28,41 +28,82 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="30dp"
-            android:layout_margin="10dp"
+            android:textSize="25dp"
             android:textColor="@color/colorPrimary"
             android:layout_below="@id/home_title"
             />
 
         <TextView
-            android:id="@+id/battery_label"
+            android:id="@+id/date_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Battery:"
             android:layout_below="@id/digital_clock"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
             android:layout_centerHorizontal="true"
-            android:textSize="30dp"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/colorPrimary" />
+            android:text="30 Dec 2019"/>
 
-        <TextView
-            android:id="@+id/battery_percent"
+        <RelativeLayout
+            android:id="@+id/p_battery_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/battery_label"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/colorPrimary"
-            android:text="10% Remaining"/>
+            android:layout_below="@id/date_display"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/battery_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Battery: "
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/battery_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/battery_label"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="10%"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rab_battery_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/p_battery_layout"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/rab_battery_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RAB Battery: "
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/rab_battery_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rab_battery_label"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="90%"/>
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/help_me_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:layout_below="@id/battery_percent"
-            android:layout_margin="30dp"
+            android:padding="15dp"
+            android:layout_below="@id/rab_battery_layout"
+            android:layout_margin="40dp"
             android:text="Help Me!"
             android:layout_centerHorizontal="true"
             android:textAllCaps="false"
@@ -71,15 +112,15 @@
             android:background="@drawable/alert_bg"/>
 
         <Button
-            android:id="@+id/test_device_btn"
+            android:id="@+id/find_rab_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="30dp"
-            android:text="Test Connection"
+            android:text="Find my RAB"
             android:textSize="20dp"
+            android:layout_margin="20dp"
             android:textColor="@color/colorPrimary"
             android:textAllCaps="false"
             android:background="@drawable/btn2_bg"/>

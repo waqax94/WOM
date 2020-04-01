@@ -17,6 +17,7 @@ import com.watchoverme.wom.Adapters.ViewPagerAdapter;
 import com.watchoverme.wom.Fragments.ContactFragment;
 import com.watchoverme.wom.Fragments.HomeFragment;
 import com.watchoverme.wom.Fragments.NotificationFragment;
+import com.watchoverme.wom.Fragments.SettingsFragment;
 import com.watchoverme.wom.R;
 
 public class HomeActivity extends AppCompatActivity {
@@ -28,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     HomeFragment homeFragment;
     NotificationFragment notificationFragment;
     ContactFragment contactFragment;
+    SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,26 +37,27 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         SharedPreferences loginData = getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
-        String phone = loginData.getString("wearerPhone","");
-        String sId = loginData.getString("serviceId","");
-        String wName = loginData.getString("wearerName","");
+        String sId = loginData.getString("service_id","");
+        String wName = loginData.getString("name","");
 
         serviceId = (TextView) findViewById(R.id.service_id);
         tabLayout = (TabLayout) findViewById(R.id.menu_tabs);
         viewPager = (ViewPager) findViewById(R.id.menu_pages);
         wearerName = (TextView) findViewById(R.id.wearer_name);
 
-        serviceId.setText("Service Id: " + sId);
-        wearerName.setText("Wearer Name: " + wName);
+        serviceId.setText("SVC-" + sId);
+        wearerName.setText(wName);
         homeFragment = new HomeFragment();
         notificationFragment = new NotificationFragment();
         contactFragment = new ContactFragment();
+        settingsFragment = new SettingsFragment();
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragments(notificationFragment,"Notifications");
         viewPagerAdapter.addFragments(homeFragment,"Home");
         viewPagerAdapter.addFragments(contactFragment,"Watchers");
+        viewPagerAdapter.addFragments(settingsFragment,"Settings");
 
 
         viewPager.setAdapter(viewPagerAdapter);

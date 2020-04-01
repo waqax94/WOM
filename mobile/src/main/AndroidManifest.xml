@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -45,6 +46,14 @@
         <activity
             android:name=".Activities.HomeActivity"
             android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.HelpMeCancelActivity"
+            android:label="@string/title_activity_help_me_cancel"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.PairedRABActivity"
+            android:label="@string/title_activity_paired_rab"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

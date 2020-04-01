@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,22 +11,19 @@
         <TextView
             android:id="@+id/notification_text"
             android:layout_width="wrap_content"
-            android:layout_height="47dp"
-            android:textSize="18dp"
-            android:layout_margin="3dp"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
             android:textColor="@color/colorPrimary"
-            android:text="Watcher is commilf;lfd;lfd;l'df;lfd;'kng to help you"/>
-
+            android:text="Rad Williams,The HelpMe Watch team is now contacting Iffat Khan for you my SMS, Email and phone. They are number 1 of 4 possible responding watchers for you. We will contact all of your Responding Watchers in sequence and keep you informed of the progress."/>
         <TextView
             android:id="@+id/notif_date_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/notification_text"
+            android:text="06-November-2020 10:30:55am"
+            android:textSize="20dp"
             android:layout_alignParentRight="true"
-            android:text="10:30am 6/Jan/2018"
-            android:textSize="10dp"
-            android:textStyle="bold"
             android:textColor="@color/colorPrimaryLight"
+            android:layout_below="@id/notification_text"
             android:layout_margin="2dp"/>
 
 

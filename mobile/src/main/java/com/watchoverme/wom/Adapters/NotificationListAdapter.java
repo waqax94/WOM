@@ -73,7 +73,7 @@ public class NotificationListAdapter extends ArrayAdapter {
         notification = (Notification) this.getItem(position);
 
         handler.text.setText(notification.getText());
-        handler.timeDate.setText(notification.getTime() + " " + notification.getDate());
+        handler.timeDate.setText(notification.getDate() + " " + notification.getTime());
 
         return list;
     }

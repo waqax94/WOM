@@ -15,12 +15,14 @@ import com.watchoverme.wom.Adapters.ContactListAdapter;
 import com.watchoverme.wom.Models.Contact;
 import com.watchoverme.wom.Models.IpClass;
 import com.watchoverme.wom.Models.ServiceId;
+import com.watchoverme.wom.Models.Watcher;
 import com.watchoverme.wom.R;
 import com.watchoverme.wom.Services.APIService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -37,7 +39,6 @@ public class ContactFragment extends Fragment {
     ListView contactsListView;
     ContactListAdapter contactListAdapter;
 
-
     public ContactFragment() {
         // Required empty public constructor
     }
@@ -49,14 +50,15 @@ public class ContactFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_contact, container, false);
 
         SharedPreferences loginData = getActivity().getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
-        String phone = loginData.getString("wearerPhone","");
-        String pw = loginData.getString("wearerPassword","");
-        String sId = loginData.getString("serviceId","");
+        String sId = loginData.getString("service_id","");
 
-        ServiceId serviceId = new ServiceId(sId);
+        ServiceId serviceModel = new ServiceId(sId);
+
+        String serviceId= serviceModel.getServiceId();
 
         contactsListView = (ListView)rootView.findViewById(R.id.contact_list);
-        contactListAdapter = new ContactListAdapter(getActivity(),R.layout.contact_list_item,sId,phone);
+        contactListAdapter = new ContactListAdapter(getActivity(),R.layout.contact_list_item);
+        Toast.makeText(getActivity(),""+serviceId,Toast.LENGTH_SHORT).show();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IpClass.ipAddress)
@@ -64,18 +66,15 @@ public class ContactFragment extends Fragment {
 
         final APIService service = retrofit.create(APIService.class);
 
-        Call<List<Contact>> contactsData = service.processContacts(serviceId);
+        Call<List<Watcher>> watcherData = service.processWatcher(serviceId);
 
-        contactsData.enqueue(new Callback<List<Contact>>() {
+        watcherData.enqueue(new Callback<List<Watcher>>() {
             @Override
-            public void onResponse(Response<List<Contact>> response, Retrofit retrofit) {
-
-                final List<Contact> contacts = response.body();
-                contactListAdapter.addContactList(contacts);
+            public void onResponse(Response<List<Watcher>> response, Retrofit retrofit) {
+                final List<Watcher> watchers = response.body();
+                contactListAdapter.addContactList(watchers);
                 contactsListView.setAdapter(contactListAdapter);
-
             }
-
             @Override
             public void onFailure(Throwable t) {
 

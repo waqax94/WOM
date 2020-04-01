@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.watchoverme.wom.Activities.HelpMeCancelActivity;
 import com.watchoverme.wom.Activities.HomeActivity;
 import com.watchoverme.wom.Activities.MainActivity;
 import com.watchoverme.wom.Models.IpClass;
@@ -62,6 +63,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class HomeFragment extends Fragment {
 
     TextView batteryLevel;
+    TextView currentDate;
     Button helpMe;
     RelativeLayout mainLayout;
     GestureDetector detector;
@@ -76,7 +78,6 @@ public class HomeFragment extends Fragment {
     ArrayList<String> allNotifications = new ArrayList<String>();
     TextView notificationPanel;
     String registrationToken;
-    Button checkConnection;
     String sId,phone;
     ProgressDialog dialog;
 
@@ -93,6 +94,12 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,10 +134,12 @@ public class HomeFragment extends Fragment {
 
         mainLayout = (RelativeLayout) rootView.findViewById(R.id.home_layout);
         batteryLevel = (TextView) rootView.findViewById(R.id.battery_percent);
+        currentDate = (TextView) rootView.findViewById(R.id.date_display);
         helpMe = (Button) rootView.findViewById(R.id.help_me_btn);
-        checkConnection = (Button) rootView.findViewById(R.id.test_device_btn);
+        //checkConnection = (Button) rootView.findViewById(R.id.test_device_btn);
 
 
+        currentDate.setText(getCurrentDate());
         getActivity().registerReceiver(this.broadcastReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
         mainLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -226,15 +235,15 @@ public class HomeFragment extends Fragment {
         }, 0, 5000);
 
 
-        timer = new Timer();
+        /*timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 TimerMethod();
             }
-        }, 30000, 3600000);
+        }, 30000, 3600000);*/
 
-        checkConnection.setOnClickListener(new View.OnClickListener() {
+        /*checkConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -262,13 +271,16 @@ public class HomeFragment extends Fragment {
 
 
             }
-        });
+        });*/
 
         helpMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                dialog.show();
+                Intent i = new Intent(getActivity(),HelpMeCancelActivity.class);
+                startActivity(i);
+
+                /*dialog.show();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(IpClass.ipAddress)
                         .addConverterFactory(GsonConverterFactory.create()).build();
@@ -320,7 +332,7 @@ public class HomeFragment extends Fragment {
                     });
                 } else {
                     Toast.makeText(getActivity(), "Please turn on GPS", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
 
@@ -339,7 +351,7 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    private void insertHourlyLogs() {
+    /*private void insertHourlyLogs() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IpClass.ipAddress)
                 .addConverterFactory(GsonConverterFactory.create()).build();
@@ -383,20 +395,23 @@ public class HomeFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Please turn on GPS", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
 
-    void TimerMethod() {
+    /*void TimerMethod() {
         getActivity().runOnUiThread(Timer_Tick);
     }
 
     private Runnable Timer_Tick = new Runnable() {
         public void run() {
-            insertHourlyLogs();
+            //insertHourlyLogs();
         }
-    };
+    };*/
 
     void LocationGetter() {
+        if(getActivity() == null)
+            return;
+
         getActivity().runOnUiThread(Location_Tick);
     }
 
@@ -413,6 +428,13 @@ public class HomeFragment extends Fragment {
     public String getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+        String strTime = mdformat.format(calendar.getTime());
+        return strTime;
+    }
+
+    public String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("dd MMMM yyyy");
         String strTime = mdformat.format(calendar.getTime());
         return strTime;
     }

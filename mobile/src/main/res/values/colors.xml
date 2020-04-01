@@ -7,5 +7,8 @@
     <color name="pButton">#7387f5</color>9e170e
     <color name="alertColor">#9e170e</color>
     <color name="colorPrimaryLight">#a0004271</color>
+    <color name="connectedColor">#e000962a</color>
+    <color name="colorGray">#c6c6c6</color>
+    <color name="alertColorselected">#ce7b1c16</color>
 
 </resources>

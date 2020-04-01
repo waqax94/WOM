@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.watchoverme.wom.Fragments.HomeFragment;
 import com.watchoverme.wom.Models.IpClass;
+import com.watchoverme.wom.Models.LoginResponse;
 import com.watchoverme.wom.Models.User;
 import com.watchoverme.wom.R;
 import com.watchoverme.wom.Services.APIService;
@@ -51,11 +53,39 @@ public class LoginActivity extends AppCompatActivity {
                 final APIService service = retrofit.create(APIService.class);
 
 
-                User user = new User (phone.getText().toString(),password.getText().toString());
 
-                Call<String> userData = service.processLogin(user);
+                Call<LoginResponse> userData = service.processLogin(phone.getText().toString(),password.getText().toString());
 
-                userData.enqueue(new Callback<String>() {
+                userData.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
+
+                        if(response.body().getWomId().equals("-1")){
+                            Toast.makeText(getApplicationContext(),response.body().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),response.body().getWomId(),Toast.LENGTH_SHORT);
+                            SharedPreferences loginData = getSharedPreferences("wearerInfo", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = loginData.edit();
+                            editor.putString("user_name", phone.getText().toString());
+                            editor.putString("password", password.getText().toString());
+                            editor.putString("wom_id", response.body().getWomId());
+                            editor.putString("name", response.body().getName());
+                            editor.putString("service_id", response.body().getServiceId());
+                            editor.apply();
+                            Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Toast.makeText(getApplicationContext(),"Connection Error",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                /*userData.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Response<String> response, Retrofit retrofit) {
 
@@ -81,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(Throwable t) {
                         Toast.makeText(getApplicationContext(),"Connection Error",Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
 
             }
         });
